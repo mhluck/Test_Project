@@ -24,7 +24,7 @@ class PostFactory extends Factory
             'author_id' => User::factory(),
             'category_id' => Categories::factory(),
             'slug' => Str::slug(fake()->sentence()),
-            'content' => fake()->text()
+            'content' => fake()->text(2000)
         ];
     }
 }
