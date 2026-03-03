@@ -10,7 +10,11 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['title' => 'Blog Page', 'posts' => Post::all()]);
+    //eager loading
+    // $posts = Post::with('author', 'category')->latest()->get();
+
+    $posts = Post::latest()->get();
+    return view('posts', ['title' => 'Blog Page', 'posts' => $posts]);
 });
 
 route::get('posts/{post:slug}', function (Post $post) {
@@ -21,10 +25,16 @@ route::get('posts/{post:slug}', function (Post $post) {
 });
 
 route::get('authors/{user:username}', function (User $user) {
+    //lazy loading    
+    // $posts = $user->posts->load('author', 'category');
+
     return view('posts', ['title' => count($user->posts) . ' Posts by ' . $user->name, 'posts' => $user->posts]);
 });
 
 route::get('categories/{category:slug}', function (Categories $category) {
+    //lazy loading    
+    // $posts = $category->posts->load('author', 'category');
+
     return view('posts', ['title' => 'Posts in Category: ' . $category->name, 'posts' => $category->posts]);
 });
 
